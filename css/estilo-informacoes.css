@@ -1,0 +1,26 @@
+body{
+
+	background: #000
+}
+
+.container{
+
+    margin: 0 auto;
+    max-width: 1140px
+
+}
+
+.php{
+
+    width: 100%;
+    text-align: center;
+    margin-top: 200px;
+    padding: 100px 0;
+    background:gray;
+}
+
+fieldset{
+
+	width: 100px;
+	margin: 0 auto;
+}
