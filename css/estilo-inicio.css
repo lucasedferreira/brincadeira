@@ -1,0 +1,28 @@
+body{
+	background-color: #16a085;
+}
+
+div.header{
+
+	max-width: 1140px;
+	margin: 0 auto;
+	font-size: 30px;
+	text-align: center;
+
+}
+
+.img{
+
+	border: solid 2px #000;
+}
+
+.ainicio{
+  
+  color: #fff
+
+}
+
+a.ainicio:hover{
+   text-decoration: none;
+   color:blue;
+}
