@@ -26,7 +26,8 @@
 		?>
 
 		</div>
-
+		<br>
+		Testando deploy automático
 		<br>
 		<a href="index.php?page=logout">Sair</a><br>
 		<a href="index.php?page=testeouqualquercoisa">Ir para uma página super legal</a><br>
