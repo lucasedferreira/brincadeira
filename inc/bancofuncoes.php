@@ -53,7 +53,7 @@
 	
 	}
 
-	//Função que pega o próximo ID da tabela informada. 
+	//Função que pega o próximo id da tabela informada. 
 	function proximoId ($tabela){
 		$exe = executaSQL("SELECT MAX(id) as id FROM ".$tabela);
 		if(nLinhas($exe)>0){
@@ -88,7 +88,7 @@
 		//echo "SELECT * FROM $tabela WHERE $clausula ";
 	}
 
-	//Retorna a execução do SQL completo no Banco de Dados 
+	//Retorna a execução do SQL
 	function executaSQL($sql, $mostrar=false){
 		
 		if($mostrar==true) echo $sql;
@@ -111,6 +111,7 @@
 		return mysqli_num_rows($exe);
 	}
 
+	//Retorna o nome da pessoa, informando o id
 	function consultaPessoaById($id){
 		$exe = executaSQL("SELECT nome FROM pessoa WHERE id = '".$id."'");
 
@@ -120,5 +121,16 @@
 			return $reg->nome;
 		}
 
+	}
+
+	//Retorna o nome do anime, informando o id
+	function consultaAnimeById($id){
+		$exe = executaSQL("SELECT nome FROM animes WHERE id = '".$id."'");
+
+		if(nLinhas($exe)>0){
+			$reg = objetoPHP($exe);
+			
+			return $reg->nome;
+		}
 	}
 ?>
