@@ -1,0 +1,7 @@
+.clear {
+	clear:both;
+	display:block;
+	overflow:hidden;
+	visibility:hidden;
+	height:30px;
+}

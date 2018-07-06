@@ -6,15 +6,12 @@
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- BOOTSTRAP CSS -->
-<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-
-<!-- BINI -->
-<link rel="stylesheet" type="text/css" href="css/estilo-bini.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
 
 <!-- BOOTSTRAP JS -->
 <script src="js/bootstrap.bundle.js" type="text/javascript"></script>
@@ -26,6 +23,9 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id" content="1075703487707-cgoqfaalqul1goq1154h0bvbkujj00ke.apps.googleusercontent.com">
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+<!-- CSS EM GERAL -->
+<link rel="stylesheet" type="text/css" href="css/estilos.css">
 
 <script src="js/funcoes.js" type="text/javascript"></script>
 
@@ -41,6 +41,33 @@
 	include_once('inc/funcoes.php');
 
 	if($_SESSION['idUser'] > 0){
+?>
+		<!-- Navigation -->
+	    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
+		    <div class="container">
+			    <a class="navbar-brand js-scroll-trigger" href="#page-top">Iukinze</a>
+			    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			    	<span class="navbar-toggler-icon"></span>
+			    </button>
+			    <div class="collapse navbar-collapse" id="navbarResponsive">
+				    <ul class="navbar-nav ml-auto">
+					    <li class="nav-item">
+					    	<a class="nav-link js-scroll-trigger" href="#1">Teste 1</a>
+					    </li>
+					    <li class="nav-item">
+					    	<a class="nav-link js-scroll-trigger" href="#2">Teste 2</a>
+					    </li>
+					    <li class="nav-item">
+					    	<a class="nav-link js-scroll-trigger" href="#3">Teste 3</a>
+					    </li>
+				    </ul>
+			    </div>
+		    </div>
+	    </nav>
+	    
+	    <div class="clear"></div>
+
+<?
 
 		if($_SESSION['mensagem'] != ""){
 ?>
@@ -54,6 +81,10 @@
 		}
 
 		if( is_file($page) ){
+
+			if( isset($_GET['tipo']) )
+				$tipo = $_GET['tipo'];
+
 			include($page);
 		}else{
 			include("error404.php");
