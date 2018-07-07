@@ -4,8 +4,6 @@
 		
 		<title>Inicio</title>
 
-		<link rel="stylesheet" type="text/css" href="css/estilo-inicio.css">
-
 	</head>
 
 	<body>
