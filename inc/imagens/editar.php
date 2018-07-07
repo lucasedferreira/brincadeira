@@ -8,15 +8,20 @@
 			$nome = explode(".", $_FILES['imagem']['name']);
 			$ext = end($nome);
 			$caminho = "uploads/imagens/".$id.".".$ext;
+			$caminho_thumb = "uploads/imagens/thumb/".$id.".".$ext;
 
-			$dados['id'] 		= $id;
-			$dados['titulo'] 	= trim($_POST['titulo']);
-			$dados['id_tipo'] 	= intval($_POST['tipo']);
-			$dados['id_anime'] 	= intval($_POST['anime']);
-			$dados['descricao'] = $_POST['descricao'];
-			$dados['arquivo']	= $caminho;
+			$dados['id'] 			= $id;
+			$dados['titulo'] 		= trim($_POST['titulo']);
+			$dados['id_tipo'] 		= intval($_POST['tipo']);
+			$dados['id_anime'] 		= intval($_POST['anime']);
+			$dados['descricao'] 	= $_POST['descricao'];
+			$dados['arquivo']		= $caminho;
+			$dados['arquivo_thumb']	= $caminho_thumb;
 
 			if( move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho) ){
+				
+				redimensionaImagem( $caminho_thumb, $caminho, 700, 400, $ext );
+
 				if(inserirDados('imagens', $dados)){
 
 					mostraMensagem("Registro salvo com sucesso!", true);
@@ -44,7 +49,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="titulo">Título</label>
+						<label for="exampleFormControlInput1">Título</label>
 						<input type="text" class="form-control" name="titulo" id="titulo" required>
 					</div>
 				</div>

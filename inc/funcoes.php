@@ -34,4 +34,49 @@
 
 		return $caminho;	
 	}
+
+	//Função que remimensiona a imagem
+	function redimensionaImagem($caminho_img,$imagem_original,$toWidth,$toHeight,$ext){
+		
+		$tamanho = getimagesize($imagem_original);
+		$width = $tamanho[0];
+		$height = $tamanho[1];
+		
+		if($width > $toWidth || $height > $toHeight){
+		
+			$scaleX = ($toWidth  / $width );
+			$scaleY = ($toHeight / $height);
+			
+			$radio = min($scaleX,$scaleY);
+			
+			$newWidth = $radio * $width;
+			$newHeight = $radio * $height;
+			
+		}else{
+			
+			$newWidth = $width;
+			$newHeight = $height;
+			
+		}
+		
+		$caminho = $caminho_img;
+		$imageResize = imagecreatetruecolor($newWidth,$newHeight);
+		
+		switch($ext){
+			
+			case "png":
+				$image = imagecreatefrompng($imagem_original);
+				break;
+			case "gif":
+				$image = imagecreatefromgif($imagem_original);
+				break;
+			default:
+				$image = imagecreatefromjpeg($imagem_original);
+				break;		
+				
+		}
+		
+		imagecopyresampled($imageResize,$image,0,0,0,0,$newWidth,$newHeight,$width,$height);
+		imagejpeg($imageResize,$caminho,90);
+	}
 ?>

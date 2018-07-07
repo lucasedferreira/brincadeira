@@ -27,6 +27,9 @@
 <!-- CSS EM GERAL -->
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 
+<!-- JS EM GERAL -->
+<script src="js/scroll-pagination.js" type="text/javascript"></script>
+
 <script src="js/funcoes.js" type="text/javascript"></script>
 
 <link rel="icon"  type="dragon-icon/png" href="images/dragon_icon.png" />
@@ -35,17 +38,15 @@
 
 <?
 	session_start();
-
 	include_once('inc/conexao.php');
 	include_once('inc/bancofuncoes.php');
 	include_once('inc/funcoes.php');
-
 	if($_SESSION['idUser'] > 0){
 ?>
 		<!-- Navigation -->
 	    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
 		    <div class="container">
-			    <a class="navbar-brand js-scroll-trigger" href="#page-top">Iukinze</a>
+			    <a class="navbar-brand js-scroll-trigger" href="index.php?page=inicio">Iukinze</a>
 			    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			    	<span class="navbar-toggler-icon"></span>
 			    </button>
@@ -68,28 +69,22 @@
 	    <div class="clear"></div>
 
 <?
-
 		if($_SESSION['mensagem'] != ""){
 ?>
 			<div class="alert-<?=($_SESSION['mensagem_status'] ? 'success' : 'danger')?> alert" role="alert"><?=$_SESSION['mensagem']?></div>
 <?			$_SESSION['mensagem'] = "";
 		}
-
 		$page = "inicio.php";
 		if( isset($_GET['page']) ){
 			$page = $_GET['page'].".php";
 		}
-
 		if( is_file($page) ){
-
 			if( isset($_GET['tipo']) )
 				$tipo = $_GET['tipo'];
-
 			include($page);
 		}else{
 			include("error404.php");
 		}
-
 		include('inc/chat/chat.php');
 		
 	}else{

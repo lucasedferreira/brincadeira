@@ -13,7 +13,7 @@
 		<div class="header">	
 		
 				Início <br>
-				Atenção! Este site está na sua fase beta...<br>
+				Página em progresso<br>
 				
 
 		</div>
@@ -26,8 +26,10 @@
 		?>
 
 		</div>
+
 		<br>
 		<a href="index.php?page=logout">Sair</a><br>
+		<a href="index.php?page=testes/teste">Teste</a><br>
 		<a href="index.php?page=testeouqualquercoisa">Ir para uma página super legal</a><br>
 		<a href="index.php?page=putzgrila">putz grila</a><br>
 		<a href="index.php?page=inc/imagens/listar">imagens</a>
