@@ -1,4 +1,4 @@
-<?	
+<?php
 	if($_POST){
 
 		if(isset($_FILES['imagem'])){
@@ -7,8 +7,8 @@
 
 			$nome = explode(".", $_FILES['imagem']['name']);
 			$ext = end($nome);
-			$caminho = "uploads/imagens/".$id.".".$ext;
-			$caminho_thumb = "uploads/imagens/thumb/".$id.".".$ext;
+			$caminho = salvaDiretorio(array("uploads", "imagens")).$id.".".$ext;
+			$caminho_thumb = salvaDiretorio(array("uploads", "imagens", "thumb")).$id.".".$ext;
 
 			$dados['id'] 			= $id;
 			$dados['titulo'] 		= trim($_POST['titulo']);
@@ -61,14 +61,14 @@
 						<label for="anime">Anime</label>
 						<select class="form-control" id="anime" name="anime" required>
 						    <option value="">Selecione o anime</option>
-						    <?
+						    <?php
 						    	$exe = executaSQL("SELECT * FROM animes ORDER BY nome");
 
 						    	if(nLinhas($exe) > 0){
 						    		while ($reg = objetoPHP($exe)) {
 						    ?>
 						    			<option value="<?=$reg->id?>"><?=$reg->nome?></option>
-						    <?
+						    <?php
 						    		}
 						    	}
 						    ?>

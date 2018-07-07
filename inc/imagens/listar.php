@@ -1,4 +1,4 @@
-<?
+<?php
 	$params = "1=1";
 	if($tipo > 0){
 		$params = "id_tipo = '".$tipo."'";
@@ -37,7 +37,7 @@
 		<div class="clear"></div>
 
 		<div class="card-columns">
-		<?
+		<?php
 		    if(nLinhas($exe) > 0){
 		     	while($reg = objetoPHP($exe)){
 		     		$totalLikes = $totalDislikes = 0;
@@ -85,7 +85,7 @@
 
 					    </div>
 					</div>
-		<?		}
+		<?php		}
 		    }
 		?>
 		</div>

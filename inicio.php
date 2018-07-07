@@ -20,7 +20,7 @@
 
 		<div class="php">
 
-		<?
+		<?php
 		echo $_SESSION['nomeUser']."<br>";
 		echo $_SESSION['emailUser'];
 		?>

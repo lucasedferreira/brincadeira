@@ -1,4 +1,4 @@
-<?
+<?php
 	//Função para mostrar mensagem na tela
 	function mostraMensagem($mensagem="", $status=true){
 		$_SESSION['mensagem'] = $mensagem;
