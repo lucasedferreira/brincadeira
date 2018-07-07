@@ -36,12 +36,16 @@
 
 <meta charset="utf-8">
 
-<?
+<?php
+
+	
+
+
 	session_start();
 	include_once('inc/conexao.php');
 	include_once('inc/bancofuncoes.php');
 	include_once('inc/funcoes.php');
-	if($_SESSION['idUser'] > 0){
+	if(!empty($_SESSION['idUser'])){
 ?>
 		<!-- Navigation -->
 	    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
@@ -68,11 +72,11 @@
 	    
 	    <div class="clear"></div>
 
-<?
-		if($_SESSION['mensagem'] != ""){
+<?php
+		if(!empty($_SESSION['mensagem'])){
 ?>
 			<div class="alert-<?=($_SESSION['mensagem_status'] ? 'success' : 'danger')?> alert" role="alert"><?=$_SESSION['mensagem']?></div>
-<?			$_SESSION['mensagem'] = "";
+<?php			$_SESSION['mensagem'] = "";
 		}
 		$page = "inicio.php";
 		if( isset($_GET['page']) ){
@@ -81,11 +85,13 @@
 		if( is_file($page) ){
 			if( isset($_GET['tipo']) )
 				$tipo = $_GET['tipo'];
+			else $tipo = 0;
+
 			include($page);
 		}else{
 			include("error404.php");
 		}
-		include('inc/chat/chat.php');
+		//include('inc/chat/chat.php');
 		
 	}else{
 		include('login.php');

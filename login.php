@@ -1,5 +1,6 @@
-<?
-	if($_SESSION['idUser'] > 0){
+<?php
+	$msg = "";
+	if(!empty($_SESSION['idUser'])){
 		header('Location: index.php?page=inicio');
 		die();
 	}
@@ -53,11 +54,11 @@
 						        </div>
 					    	</div> -->
 							<hr>
-							<?	if($msg != ""){ ?>
+							<?php	if(!empty($msg)){ ?>
 									<div id="msg" class="alert-warning alert" role="alert"><?=$msg?></div>
-							<?	}else{ ?>
+							<?php	}else{ ?>
 									<div id="msg" class="" role="alert"></div>
-							<?	} ?>
+							<?php	} ?>
 							<form method="post" action="index.php?page=login">
 							    <div class="form-group">
 							        <input class="form-control" placeholder="Email" type="email" id="email" name="email" required>

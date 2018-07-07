@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conexao.php');
 
 	//Inclui dados
