@@ -12,26 +12,48 @@
 <html>
 <head>
 	<title>Imagens</title>
+	<style type="text/css">
+		.image{
+			max-height: 750px;
+		}
+	</style>
 </head>
 <body>
 
 	<div class="container">
-		<div class="card">
-			<h5 class="card-header">Filtro</h5>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="titulo">Título</label>
-									<input type="text" class="form-control" name="titulo" id="titulo" required>
+
+		<div id="carouselTopImagens" class="carousel slide" data-ride="carousel" style="height:750px;">
+			<div class="carousel-inner">
+				<?php
+					$exeMais = executaSQL("SELECT * FROM imagens ORDER BY media_likes DESC LIMIT 5");
+
+					if(nLinhas($exeMais) > 0){
+						$x=0; //posição
+						while ($regMais = objetoPHP($exeMais)) {
+							$x++;
+				?>
+							<div class="carousel-item <?=$x==1 ? 'active' : ''?>">
+								<img class="image d-block w-100" src="<?=$regMais->arquivo?>" alt="<?=$regMais->titulo?>">
+
+								<div class="carousel-caption d-none d-md-block">
+							    	<h5><?=$regMais->titulo?></h5>
+							    	<p><?=$regMais->descricao?></p>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
+				<?php
+						}
+					}
+				?>
+				
 			</div>
+			<a class="carousel-control-prev" href="#carouselTopImagens" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Anterior</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselTopImagens" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Próxima</span>
+			</a>
 		</div>
 
 		<div class="clear"></div>
