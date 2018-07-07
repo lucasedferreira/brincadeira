@@ -84,6 +84,9 @@
 				$dados['likes'] = $totalLikes;
 				$dados['dislikes'] = $totalDislikes;
 
+				$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
+				alterarDados("imagens", $dadosImg, "id = '".$idImagem."'");
+
 			echo json_encode($dados);
 		break;
 
@@ -135,6 +138,10 @@
 
 				$dados['likes'] = $totalLikes;
 				$dados['dislikes'] = $totalDislikes;
+
+				//Atualiza a média de likes na tabela imagens
+				$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
+				alterarDados("imagens", $dadosImg, "id = '".$idImagem."'",1);
 
 			echo json_encode($dados);
 		break;
