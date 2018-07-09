@@ -27,9 +27,6 @@
 <!-- CSS EM GERAL -->
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 
-<!-- JS EM GERAL -->
-<script src="js/scroll-pagination.js" type="text/javascript"></script>
-
 <script src="js/funcoes.js" type="text/javascript"></script>
 
 <link rel="icon"  type="dragon-icon/png" href="images/dragon_icon.png" />
