@@ -12,13 +12,13 @@
             </nav>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-normal" role="tabpanel" aria-labelledby="nav-normal-tab">
-                    <?php include_once('inc\imagens\normal.php'); ?>
+                    <?php include_once('inc/imagens/normal.php'); ?>
                 </div>
                 <div class="tab-pane fade" id="nav-rapido" role="tabpanel" aria-labelledby="nav-rapido-tab">
-                    <?php include_once('inc\imagens\rapido.php'); ?>
+                    <?php include_once('inc/imagens/rapido.php'); ?>
                 </div>
                 <div class="tab-pane fade" id="nav-lento" role="tabpanel" aria-labelledby="nav-lento-tab">
-                    <?php include_once('inc\imagens\lento.php'); ?>
+                    <?php include_once('inc/imagens/lento.php'); ?>
                 </div>
             </div>
         </div>
