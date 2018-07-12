@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
+
 		<title>Inicio</title>
 
 	</head>
@@ -27,7 +27,7 @@
 					</button>
 					<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 						<a class="dropdown-item" href="index.php?page=inc/imagens/listar">Listagem</a>
-						<a class="dropdown-item" href="index.php?page=inc/imagens/editar">Cadastrar</a>
+						<a class="dropdown-item" href="index.php?page=inc/imagens/cadastro">Cadastrar</a>
 					</div>
 				</div>
 			</div>

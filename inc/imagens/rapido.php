@@ -20,7 +20,7 @@
 				$dados['arquivo_thumb']	= $caminho_thumb;
 
 				move_uploaded_file($_FILES['imagem']['tmp_name'][$key], $caminho);
-					
+
 				redimensionaImagem( $caminho_thumb, $caminho, 700, 400, $ext );
 
 				inserirDados('imagens', $dados);
@@ -33,27 +33,41 @@
 		}else{
 			mostraMensagem("Erro no upload da(s) imagem(ns).", false);
 		}
-		
-		header("Location: index.php?page=inc/imagens/editar");
+
+		header("Location: index.php?page=inc/imagens/cadastro");
 		die();
 	}
 ?>
 
 <div class="container">
-	<form action="index.php?page=inc/imagens/editar" method="post" enctype="multipart/form-data" name="cadastro">
+	<form action="index.php?page=inc/imagens/rapido" method="post" enctype="multipart/form-data" name="cadastro">
 
 		<div class="form-group">
+
+            <div class="clear"></div>
+
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary"><span id="quant">1</span></button>
+                        <a href="javascript:void(0);" id="add_foto_rapida" class="btn btn-primary" title="Adicionar mais uma foto" alt="Adicionar mais uma foto">
+                            <i class="fa fa-plus"></i> Adicionar mais uma imagem
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <input class="hidden" id="quant_imagens" value="1">
+
+            <div class="clear"></div>
+
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="exampleFormControlInput1">Título</label>
 						<input type="text" class="form-control" name="titulo[0]" id="titulo" required>
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-6">
+                <div class="col-md-6">
 					<div class="form-group">
 						<label for="anime">Anime</label>
 						<select class="form-control" id="anime" name="anime[0]" required>
@@ -72,6 +86,9 @@
 						</select>
 					</div>
 				</div>
+			</div>
+
+			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="tipo">Tipo</label>
@@ -83,35 +100,16 @@
 						</select>
 					</div>
 				</div>
-			</div>
 
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-					    <label for="descricao">Descrição</label>
-					    <textarea class="form-control" id="descricao" name="descricao[0]" rows="3"></textarea>
-				  	</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 				  	<div class="form-group">
 					    <label for="imagem">Imagem</label>
-					    <input type="file" class="form-control-file" id="imagem" name="imagem[0]">
+					    <input type="file" class="form-control-file" id="imagem" name="imagem[0]" required>
 				  	</div>
 				</div>
 			</div>
 
-			<div id="adiconar_foto"></div>
-
-			<div class="row">
-                <div class="col-md-12">
-                    <a href="javascript:void(0);" id="add_foto" class="btn btn-primary" title="Adicionar mais uma foto" alt="Adicionar mais uma foto">
-                        <i class="fa fa-plus"></i> Adicionar mais uma foto
-                    </a>
-            	</div>
-    		</div>
+			<div id="adiconar_foto_rapida"></div>
 
 		</div>
 
@@ -125,26 +123,24 @@
 
 <script>
 	$(function(){
-		let x = 0;
+		let x = total = 0;
 
-		$('#add_foto').click(function(){
-			x++;							
-			
+		$('#add_foto_rapida').click(function(){
+			x++;
+
 			let conteudo = "";
 
 			conteudo += '	<div id="row-'+ x +'">'
 			conteudo += '		<hr>';
-	
+
 			conteudo += '		<div class="row">';
-			conteudo += '			<div class="col-md-12">';
+			conteudo += '			<div class="col-md-6">';
 			conteudo += '				<div class="form-group">';
 			conteudo += '					<label for="exampleFormControlInput1">Título</label>';
 			conteudo += '					<input type="text" class="form-control" name="titulo['+ x +']" id="titulo" required>';
 			conteudo += '				</div>';
 			conteudo += '			</div>';
-			conteudo += '		</div>';
-			conteudo += '		<div class="row">';
-			conteudo += '			<div class="col-md-6">';
+            conteudo += '			<div class="col-md-6">';
 			conteudo += '				<div class="form-group">';
 			conteudo += '					<label for="anime">Anime</label>';
 			conteudo += '					<select class="form-control" id="anime" name="anime['+ x +']" required>';
@@ -162,6 +158,9 @@
 			conteudo += '					</select>';
 			conteudo += '				</div>';
 			conteudo += '			</div>';
+			conteudo += '		</div>';
+
+			conteudo += '		<div class="row">';
 			conteudo += '			<div class="col-md-6">';
 			conteudo += '				<div class="form-group">';
 			conteudo += '					<label for="tipo">Tipo</label>';
@@ -173,41 +172,40 @@
 			conteudo += '					</select>';
 			conteudo += '				</div>';
 			conteudo += '			</div>';
-			conteudo += '		</div>';
-			conteudo += '		<div class="row">';
-			conteudo += '			<div class="col-md-12">';
-			conteudo += '				<div class="form-group">';
-			conteudo += '				    <label for="descricao">Descrição</label>';
-			conteudo += '				    <textarea class="form-control" id="descricao" name="descricao['+ x +']" rows="3"></textarea>';
-			conteudo += '			  	</div>';
-			conteudo += '			</div>';
-			conteudo += '		</div>';
-			conteudo += '		<div class="row">';
-			conteudo += '			<div class="col-md-12">';
+			conteudo += '			<div class="col-md-5">';
 			conteudo += '			  	<div class="form-group">';
 			conteudo += '				    <label for="imagem">Imagem</label>';
 			conteudo += '				    <input type="file" class="form-control-file" id="imagem" name="imagem['+ x +']">';
 			conteudo += '			  	</div>';
 			conteudo += '			</div>';
+            conteudo +=	'		    <div class="col-md-1">';
+			conteudo +=	'		     	<div class="form-group">';
+			conteudo +=	'		     		 <a href="javascript:void(0);" id="excluir-'+ x +'" data-number="' + x + '" class="btn btn-danger" title="Excluir" alt="Excluir">';
+            conteudo +=	'		    			<i class="fa fa-times"></i>';
+            conteudo +=	'		    		</a>';
+			conteudo +=	'		     	</div>';
+			conteudo +=	'		    </div>';
 			conteudo += '		</div>';
 
-			conteudo +=	'		<div class="col-md-1">';
-			conteudo +=	'			<div class="form-group">';
-			conteudo +=	'				 <a href="javascript:void(0);" data-number="' + x + '" class="btn btn-sm red excluir-foto" title="Excluir" alt="Excluir">';
-            conteudo +=	'					<i class="fa fa-times"></i>';
-            conteudo +=	'				</a>';
-			conteudo +=	'			</div>';
-			conteudo +=	'		</div>';
-
 			conteudo +=	'	</div>';
-			
-			$('#adiconar_foto').append(conteudo);
-			
-			$('.excluir-foto').click(function(){
+
+
+			$('#adiconar_foto_rapida').append(conteudo);
+
+            //Atualiza quantidade total
+            total = parseInt($('#quant_imagens').val()) + 1;
+            $('#quant').html( total );
+            $('#quant_imagens').val( total );
+
+			$('#excluir-'+ x).click(function(){
 				number = $(this).attr('data-number');
 				$('#row-' + number).remove();
+
+                total = parseInt($('#quant_imagens').val()) - 1;
+                $('#quant').html( total );
+                $('#quant_imagens').val( total );
 			});
-			
+
 		});
 	})
 </script>

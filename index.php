@@ -35,7 +35,7 @@
 
 <?php
 
-	
+
 
 
 	session_start();
@@ -64,8 +64,6 @@
 			    </ul>
 		    </div>
 	    </nav>
-	    
-	    <div class="clear"></div>
 
 <?php
 		if(!empty($_SESSION['mensagem'])){
@@ -73,6 +71,11 @@
 			<div class="alert-<?=($_SESSION['mensagem_status'] ? 'success' : 'danger')?> alert" role="alert"><?=$_SESSION['mensagem']?></div>
 <?php			$_SESSION['mensagem'] = "";
 		}
+
+?>
+        <div class="clear"></div>
+<?php
+
 		$page = "inicio.php";
 		if( isset($_GET['page']) ){
 			$page = $_GET['page'].".php";
@@ -87,7 +90,7 @@
 			include("error404.php");
 		}
 		//include('inc/chat/chat.php');
-		
+
 	}else{
 		include('login.php');
 	}
