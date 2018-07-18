@@ -26,7 +26,7 @@
 						Imagens
 					</button>
 					<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-						<a class="dropdown-item" href="index.php?page=inc/imagens/listar">Listagem</a>
+						<a class="dropdown-item" href="index.php?page=inc/imagens/listagem">Listagem</a>
 						<a class="dropdown-item" href="index.php?page=inc/imagens/cadastro">Cadastrar</a>
 					</div>
 				</div>

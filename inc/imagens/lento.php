@@ -28,7 +28,7 @@
 			}
 
 			mostraMensagem("Registro salvo com sucesso!", true);
-			header("Location: index.php?page=inc/imagens/listar");
+			header("Location: index.php?page=inc/imagens/listagem");
 			die();
 		}else{
 			mostraMensagem("Erro no upload da(s) imagem(ns).", false);
@@ -124,7 +124,7 @@
 
 		<div class="form-actions left">
 			<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Salvar</button>
-			<button type="button" class="btn btn-outline-secondary" onclick="window.location='index.php?page=inc/imagens/listar'">Cancelar</button>
+			<button type="button" class="btn btn-outline-danger" onclick="window.location='index.php?page=inc/imagens/listagem'">Cancelar</button>
 		</div>
 	</form>
 </div>

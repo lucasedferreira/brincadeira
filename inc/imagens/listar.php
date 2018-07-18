@@ -1,82 +1,34 @@
-<?php
-	$params = "1=1";
-	if($tipo > 0){
-		$params = "id_tipo = '".$tipo."'";
-	}else{
-		$params = "id_tipo = '1'";
-	}
-	$exe = executaSQL("SELECT * FROM imagens WHERE ".$params." ORDER BY RAND()");
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Imagens</title>
-	<style type="text/css">
-		.image{
-			max-height: 750px;
-		}
-	</style>
-</head>
-<body>
-
-	<div class="container">
-
-		<div id="carouselTopImagens" class="carousel slide" data-ride="carousel" style="height:750px;">
-			<div class="carousel-inner">
-				<?php
-					$exeMais = executaSQL("SELECT * FROM imagens ORDER BY media_likes DESC LIMIT 5");
-
-					if(nLinhas($exeMais) > 0){
-						$x=0; //posição
-						while ($regMais = objetoPHP($exeMais)) {
-							$x++;
-				?>
-							<div class="carousel-item <?=$x==1 ? 'active' : ''?>">
-								<img class="image d-block w-100" src="<?=$regMais->arquivo?>" alt="<?=$regMais->titulo?>">
-
-								<div class="carousel-caption d-none d-md-block">
-							    	<h5><?=$regMais->titulo?></h5>
-							    	<p><?=$regMais->descricao?></p>
-								</div>
-							</div>
-				<?php
-						}
-					}
-				?>
-				
-			</div>
-			<a class="carousel-control-prev" href="#carouselTopImagens" role="button" data-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="sr-only">Anterior</span>
-			</a>
-			<a class="carousel-control-next" href="#carouselTopImagens" role="button" data-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="sr-only">Próxima</span>
-			</a>
-		</div>
-
-		<div class="clear"></div>
-
-		<div class="card-columns">
+<div class="card-columns">
 		<?php
+			$exe = executaSQL("SELECT * FROM imagens ORDER BY RAND()");
+
 		    if(nLinhas($exe) > 0){
 		     	while($reg = objetoPHP($exe)){
-		     		$totalLikes = $totalDislikes = 0;
+		     		$totalLikes = $totalDislikes = $votou = 0;
 
 		     		//Calcula todal de likes e dislikes
 		     		$exeVotos = executaSQL("SELECT * FROM imagem_votos WHERE id_imagem = '".$reg->id."'");
 		     		if(nLinhas($exeVotos) > 0){
+
 		     			while ($regVotos = objetoPHP($exeVotos)) {
 
-		     				if($regVotos->tipo == 1) //like
+		     				if($regVotos->tipo == 1){ //like
 		     					$totalLikes++;
-		     				elseif($regVotos->tipo == 2)
+
+		     					if($regVotos->id_pessoa == $_SESSION['idUser'])
+		     						$votou = 1;
+
+		     				}elseif($regVotos->tipo == 2){
 		     					$totalDislikes++;
+
+		     					if($regVotos->id_pessoa == $_SESSION['idUser'])
+		     						$votou = 2;
+
+		     				}
 		     			}
 		     		}
 		?>
-			        <div class="card text-white bg-dark border-info">
+			        <div class="card text-white bg-dark mb-3 border-light">
 				    	<img class="card-img-top" src="<?=$reg->arquivo_thumb != "" ? $reg->arquivo_thumb : $reg->arquivo?>" alt="<?=$reg->titulo?>">
 
 				    	<div class="card-body">
@@ -98,8 +50,8 @@
 				    				</td>
 				    				<td align="right">
 				    					<span id="like-<?=$reg->id?>" class="text-success"><?=$totalLikes?></span>
-										<a href="javascript:void(0);" data-id="<?=$reg->id?>" class="btn btn-success like"><i class="fas fa-thumbs-up"></i></a>
-			                  			<a href="javascript:void(0);" data-id="<?=$reg->id?>" class="btn btn-outline-danger dislike"><i class="fas fa-thumbs-down"></i></a>
+										<a href="javascript:void(0);" id="btn-like-<?=$reg->id?>" data-id="<?=$reg->id?>" class="btn <?=$votou==1 ? 'btn-success' : 'btn-outline-success'?> like"><i class="fas fa-thumbs-up"></i></a>
+			                  			<a href="javascript:void(0);" id="btn-dislike-<?=$reg->id?>" data-id="<?=$reg->id?>" class="btn <?=$votou==2 ? 'btn-danger' : 'btn-outline-danger'?> dislike"><i class="fas fa-thumbs-down"></i></a>
 			                  			<span id="dislike-<?=$reg->id?>" class="text-danger"><?=$totalDislikes?></span>
 				    				</td>
 				    			</tr>
@@ -111,65 +63,3 @@
 		    }
 		?>
 		</div>
-	</div>
-
-</body>
-</html>
-
-<script>
-	$(function(){
-						
-		$('.like').click(function(){
-
-			let id = $(this).attr('data-id');
-
-			$.ajax({
-                url: 'inc/genericJSON.php',
-                type: 'post',
-                data: {
-                        acao:   'likeImagem',
-                        id:     id
-                },
-                cache: false,
-                success: function(data) {
-
-                    $("#like-"+id).html(data.likes);
-                    $("#dislike-"+id).html(data.dislikes);
-                
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.responseText);
-                    //console.dir(XMLHttpRequest.responseText);
-                },
-                dataType: 'json'
-            });
-		});
-
-		$('.dislike').click(function(){
-
-			let id = $(this).attr('data-id');
-
-			$.ajax({
-                url: 'inc/genericJSON.php',
-                type: 'post',
-                data: {
-                        acao:   'dislikeImagem',
-                        id:     id
-                },
-                cache: false,
-                success: function(data) {
-
-                    $("#like-"+id).html(data.likes);
-                    $("#dislike-"+id).html(data.dislikes);
-                
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.responseText);
-                    //console.dir(XMLHttpRequest.responseText);
-                },
-                dataType: 'json'
-            });
-		});
-		
-	});
-</script>
