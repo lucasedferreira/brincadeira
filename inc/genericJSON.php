@@ -36,112 +36,139 @@
 
 		case 'likeImagem':
 			
-				$idImagem = $_POST['id'];
-				$votado = 0; //Variável que informa se já havido sido votado nesta imagem
-				$totalLikes = $totalDislikes = 0;
-				$dados = array();
+			$idImagem = $_POST['id'];
+			$votado = 0; //Variável que informa se já havido sido votado nesta imagem
+			$totalLikes = $totalDislikes = 0;
+			$dados = array();
 
-				//Verifica se esse usuário já votou nesta imagem
-				$exeVotos = executaSQL("SELECT * FROM imagem_votos WHERE id_imagem = '".$idImagem."'");
-				if(nLinhas($exeVotos) > 0){
-					while ($regVotos = objetoPHP($exeVotos)) {
+			//Verifica se esse usuário já votou nesta imagem
+			$exeVotos = executaSQL("SELECT * FROM imagem_votos WHERE id_imagem = '".$idImagem."'");
+			if(nLinhas($exeVotos) > 0){
+				while ($regVotos = objetoPHP($exeVotos)) {
+					
+					//Se já foi votado, deleta o voto
+					if($regVotos->id_pessoa == $_SESSION['idUser']){
+						excluirDados("imagem_votos", "id = '".$regVotos->id."'");
 						
-						//Se já foi votado, deleta o voto
-						if($regVotos->id_pessoa == $_SESSION['idUser']){
-							excluirDados("imagem_votos", "id = '".$regVotos->id."'");
-							
 
-							if($regVotos->tipo == 1){
-								$votado = 1;
-								$totalLikes--; //Diminui um voto, afinal o voto foi retirado
-							}elseif($regVotos->tipo == 2){
-								$totalDislikes--; //Tira o dislike que foi dado, pois foi trocado pelo like
-							}
-						}
-
-						if($regVotos->tipo == 1){ //se for like
-							$totalLikes++;
-						}elseif($regVotos->tipo == 2){ //dislike
-							$totalDislikes++;
+						if($regVotos->tipo == 1){
+							$votado = 1;
+							$totalLikes--; //Diminui um voto, afinal o voto foi retirado
+						}elseif($regVotos->tipo == 2){
+							$totalDislikes--; //Tira o dislike que foi dado, pois foi trocado pelo like
 						}
 					}
-				}
 
-				//Se ainda não foi votado
-				if($votado == 0){
-
-					//Salva o voto do usuário
-					$dadosIns['id_pessoa'] = $_SESSION['idUser'];
-					$dadosIns['id_imagem'] = $idImagem;
-					$dadosIns['tipo']		= 1; //like
-					if(inserirDados("imagem_votos", $dadosIns)){
-						$dados["status"] = true;
-
+					if($regVotos->tipo == 1){ //se for like
 						$totalLikes++;
+					}elseif($regVotos->tipo == 2){ //dislike
+						$totalDislikes++;
 					}
 				}
+			}
 
-				$dados['likes'] = $totalLikes;
-				$dados['dislikes'] = $totalDislikes;
+			//Se ainda não foi votado
+			if($votado == 0){
 
-				$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
-				alterarDados("imagens", $dadosImg, "id = '".$idImagem."'");
+				//Salva o voto do usuário
+				$dadosIns['id_pessoa'] = $_SESSION['idUser'];
+				$dadosIns['id_imagem'] = $idImagem;
+				$dadosIns['tipo']		= 1; //like
+				if(inserirDados("imagem_votos", $dadosIns)){
+					$dados["status"] = true;
+
+					$totalLikes++;
+				}
+			}
+
+			$dados['likes'] = $totalLikes;
+			$dados['dislikes'] = $totalDislikes;
+
+			$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
+			alterarDados("imagens", $dadosImg, "id = '".$idImagem."'");
 
 			echo json_encode($dados);
 		break;
 
 		case 'dislikeImagem':
 			
-				$idImagem = $_POST['id'];
-				$votado = 0; //Variável que informa se já havido sido votado nesta imagem
-				$totalLikes = $totalDislikes = 0;
-				$dados = array();
+			$idImagem = $_POST['id'];
+			$votado = 0; //Variável que informa se já havido sido votado nesta imagem
+			$totalLikes = $totalDislikes = 0;
+			$dados = array();
 
-				//Verifica se esse usuário já votou nesta imagem
-				$exeVotos = executaSQL("SELECT * FROM imagem_votos WHERE id_imagem = '".$idImagem."'");
-				if(nLinhas($exeVotos) > 0){
-					while ($regVotos = objetoPHP($exeVotos)) {
+			//Verifica se esse usuário já votou nesta imagem
+			$exeVotos = executaSQL("SELECT * FROM imagem_votos WHERE id_imagem = '".$idImagem."'");
+			if(nLinhas($exeVotos) > 0){
+				while ($regVotos = objetoPHP($exeVotos)) {
+					
+					//Se já foi votado, deleta o voto
+					if($regVotos->id_pessoa == $_SESSION['idUser']){
+						excluirDados("imagem_votos", "id = '".$regVotos->id."'");
 						
-						//Se já foi votado, deleta o voto
-						if($regVotos->id_pessoa == $_SESSION['idUser']){
-							excluirDados("imagem_votos", "id = '".$regVotos->id."'");
-							
-							if($regVotos->tipo == 2){
-								$votado = 1;
-								$totalDislikes--; //Diminui um voto, afinal o voto foi retirado
-							}elseif($regVotos->tipo == 1){
-								$totalLikes--; //Tira o like que foi dado, pois foi trocado pelo dislike
-							}
-						}
-
-						if($regVotos->tipo == 1){ //se for like
-							$totalLikes++;
-						}elseif($regVotos->tipo == 2){ //dislike
-							$totalDislikes++;
+						if($regVotos->tipo == 2){
+							$votado = 1;
+							$totalDislikes--; //Diminui um voto, afinal o voto foi retirado
+						}elseif($regVotos->tipo == 1){
+							$totalLikes--; //Tira o like que foi dado, pois foi trocado pelo dislike
 						}
 					}
-				}
 
-				//Se ainda não foi votado
-				if($votado == 0){
-
-					//Salva o voto do usuário
-					$dadosIns['id_pessoa'] = $_SESSION['idUser'];
-					$dadosIns['id_imagem'] = $idImagem;
-					$dadosIns['tipo']		= 2; //like
-					if(inserirDados("imagem_votos", $dadosIns)){
-						$dados["status"] = true;
-
+					if($regVotos->tipo == 1){ //se for like
+						$totalLikes++;
+					}elseif($regVotos->tipo == 2){ //dislike
 						$totalDislikes++;
 					}
 				}
+			}
 
-				$dados['likes'] = $totalLikes;
-				$dados['dislikes'] = $totalDislikes;
+			//Se ainda não foi votado
+			if($votado == 0){
 
-				//Atualiza a média de likes na tabela imagens
-				$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
-				alterarDados("imagens", $dadosImg, "id = '".$idImagem."'");
+				//Salva o voto do usuário
+				$dadosIns['id_pessoa'] = $_SESSION['idUser'];
+				$dadosIns['id_imagem'] = $idImagem;
+				$dadosIns['tipo']		= 2; //like
+				if(inserirDados("imagem_votos", $dadosIns)){
+					$dados["status"] = true;
+
+					$totalDislikes++;
+				}
+			}
+
+			$dados['likes'] = $totalLikes;
+			$dados['dislikes'] = $totalDislikes;
+
+			//Atualiza a média de likes na tabela imagens
+			$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
+			alterarDados("imagens", $dadosImg, "id = '".$idImagem."'");
+
+			echo json_encode($dados);
+		break;
+
+		case 'populaSelectPersonagens':
+			$idAnime = $_POST['idAnime'];
+			$x = 0;
+			$dados = array();
+
+			if($idAnime > 0){
+
+				$exe = executaSQL("SELECT * FROM personagens WHERE id_anime = '".$idAnime."'");
+				if(nLinhas($exe) > 0){
+					while ($reg = objetoPHP($exe)) {
+						$dados['id'][$x]   = $reg->id;
+						$dados['nome'][$x] = $reg->nome;
+
+						$x++;
+					}
+					$dados['status'] = true;
+					$dados['quant'] = $x;
+				}else{
+					$dados['status'] = false;
+				}
+			}else{
+				$dados['status'] = false;
+			}
 
 			echo json_encode($dados);
 		break;
