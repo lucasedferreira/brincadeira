@@ -141,7 +141,34 @@
 
 				//Atualiza a média de likes na tabela imagens
 				$dadosImg['media_likes'] = $totalLikes - $totalDislikes;
-				alterarDados("imagens", $dadosImg, "id = '".$idImagem."'",1);
+				alterarDados("imagens", $dadosImg, "id = '".$idImagem."'");
+
+			echo json_encode($dados);
+		break;
+
+		case 'populaSelectPersonagens':
+				$idAnime = $_POST['idAnime'];
+				$x = 0;
+				$dados = array();
+
+				if($idAnime > 0){
+
+					$exe = executaSQL("SELECT * FROM personagens WHERE id_anime = '".$idAnime."'");
+					if(nLinhas($exe) > 0){
+						while ($reg = objetoPHP($exe)) {
+							$dados['id'][$x]   = $reg->id;
+							$dados['nome'][$x] = $reg->nome;
+
+							$x++;
+						}
+						$dados['status'] = true;
+						$dados['quant'] = $x;
+					}else{
+						$dados['status'] = false;
+					}
+				}else{
+					$dados['status'] = false;
+				}
 
 			echo json_encode($dados);
 		break;
