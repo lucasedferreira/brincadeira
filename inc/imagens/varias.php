@@ -13,7 +13,7 @@
 
 			$dados = array();
 			$dados['id'] 			= $id;
-			$dados['titulo'] 		= "teste - ".$id;
+			$dados['titulo'] 		= consultaAleatoria();
 			$dados['id_tipo'] 		= 1;
 			$dados['id_anime'] 		= 1;
 			$dados['descricao'] 	= "";

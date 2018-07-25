@@ -133,4 +133,15 @@
 			return $reg->nome;
 		}
 	}
+
+	//Retorna o uma frase aleatória
+	function consultaAleatoria($id){
+		$exe = executaSQL("SELECT valor FROM aleatorio ORDER BY RAND() LIMIT 1");
+
+		if(nLinhas($exe)>0){
+			return objetoPHP($exe)->valor;
+		}else{
+			return "kkk";
+		}
+	
 ?>
