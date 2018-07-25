@@ -1,65 +1,71 @@
-<div class="card-columns">
-		<?php
-			$exe = executaSQL("SELECT * FROM imagens ORDER BY RAND()");
+<div class="card-columns imagens"></div>
 
-		    if(nLinhas($exe) > 0){
-		     	while($reg = objetoPHP($exe)){
-		     		$totalLikes = $totalDislikes = $votou = 0;
+<script>
+	
+	$(document).ready(function(){
 
-		     		//Calcula todal de likes e dislikes
-		     		$exeVotos = executaSQL("SELECT * FROM imagem_votos WHERE id_imagem = '".$reg->id."'");
-		     		if(nLinhas($exeVotos) > 0){
+		var flag = 0;
 
-		     			while ($regVotos = objetoPHP($exeVotos)) {
+		$.ajax({
 
-		     				if($regVotos->tipo == 1){ //like
-		     					$totalLikes++;
+			url: 'inc/genericJSON.php',
+            type: 'post',
+            data: {
+                    acao:   'populaImagens',
+                    offset:  flag,
+                    limit: 3
+            },
+            cache: false,
+            success: function(data) {
 
-		     					if($regVotos->id_pessoa == $_SESSION['idUser'])
-		     						$votou = 1;
+            	for (var i = data.length - 1; i >= 0; i--) {
+            		$(".imagens").append(data[i]);
+            		flag += 3;
+            	}
+            
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.responseText);
+                //console.dir(XMLHttpRequest.responseText);
+            },
+            dataType: 'json'
 
-		     				}elseif($regVotos->tipo == 2){
-		     					$totalDislikes++;
+		});
 
-		     					if($regVotos->id_pessoa == $_SESSION['idUser'])
-		     						$votou = 2;
+		$(window).scroll(function(){
 
-		     				}
-		     			}
-		     		}
-		?>
-			        <div class="card text-white bg-dark mb-3 border-light">
-				    	<img class="card-img-top" src="<?=$reg->arquivo_thumb != "" ? $reg->arquivo_thumb : $reg->arquivo?>" alt="<?=$reg->titulo?>">
+			if($(window).scrollTop() >= $(document).height() - $(window).height()){
 
-				    	<div class="card-body">
-						    <h5 class="card-title"><?=$reg->titulo?></h5>
-						    
-					        <small class="text-muted">
-						    	<cite title="Source Title"><?=consultaAnimeById($reg->id_anime)?></cite>
-						    </small>
-						    
-						    <p class="card-text"><?=$reg->descricao?></p>
+				$.ajax({
 
-						    
-				    	</div>
-				    	<div class="card-footer">
-				    		<table width="100%">
-				    			<tr>
-				    				<td align="left">
-							    		<a href="baixarArquivo.php?tabela=imagens&condicao=id=<?=$reg->id?>" target="_blank" class="btn btn-primary"><i class="fas fa-download"></i></a>
-				    				</td>
-				    				<td align="right">
-				    					<span id="like-<?=$reg->id?>" class="text-success"><?=$totalLikes?></span>
-										<a href="javascript:void(0);" id="btn-like-<?=$reg->id?>" data-id="<?=$reg->id?>" class="btn <?=$votou==1 ? 'btn-success' : 'btn-outline-success'?> like"><i class="fas fa-thumbs-up"></i></a>
-			                  			<a href="javascript:void(0);" id="btn-dislike-<?=$reg->id?>" data-id="<?=$reg->id?>" class="btn <?=$votou==2 ? 'btn-danger' : 'btn-outline-danger'?> dislike"><i class="fas fa-thumbs-down"></i></a>
-			                  			<span id="dislike-<?=$reg->id?>" class="text-danger"><?=$totalDislikes?></span>
-				    				</td>
-				    			</tr>
-				    		</table>
+					url: 'inc/genericJSON.php',
+		            type: 'post',
+		            data: {
+		                    acao:   'populaImagens',
+		                    offset:  flag,
+		                    limit: 3
+		            },
+		            cache: false,
+		            success: function(data) {
 
-					    </div>
-					</div>
-		<?php		}
-		    }
-		?>
-		</div>
+		            	for (var i = data.length - 1; i >= 0; i--) {
+		            		$(".imagens").append(data[i]);
+		            		flag += 3;
+		            	}
+		            
+		            },
+		            error: function (XMLHttpRequest, textStatus, errorThrown) {
+		                alert(XMLHttpRequest.responseText);
+		                //console.dir(XMLHttpRequest.responseText);
+		            },
+		            dataType: 'json'
+
+				});
+
+			}
+
+		});
+
+	});
+
+</script>

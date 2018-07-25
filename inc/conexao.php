@@ -1,7 +1,7 @@
 <?php
 	//0- local
 	//1- remoto
-	$localRemoto = 1;
+	$localRemoto = 0;
 
 	if($localRemoto==0){
 		$host = "localhost";
